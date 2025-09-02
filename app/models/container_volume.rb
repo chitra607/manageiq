@@ -48,17 +48,17 @@ class ContainerVolume < ApplicationRecord
       :role        => 'ems_operations',
       :queue_name  => vm.ext_management_system.queue_name_for_ems_operations,
       :zone        => vm.ext_management_system.my_zone,
-      :args        => [vm, volume_name, volume_size]
+      :args        => [vm, data]
     }
 
     MiqTask.generic_action_with_callback(task_opts, queue_opts)
   end
 
-  def create_pvc_and_attach(vm, volume_name, volume_size)
-    vm.create_pvc(vm, volume_name, volume_size)
+  def create_pvc_and_attach(vm, data)
+    vm.create_pvc(vm, data)
   end
 
-  def create_pvc(vm, volume_name,volume_size)
+  def create_pvc(vm, data)
     raise NotImplementedError, _("VM has no EMS, unable to attach volume") unless vm.ext_management_system
   end
 
