@@ -4575,6 +4575,19 @@
       :description: Check Compliance of Last Known Configuration
       :feature_type: control
       :identifier: container_node_check_compliance
+    - :name: Edit Node
+      :description: Edit Container Node
+      :feature_type: control
+      :identifier: container_node_edit
+  - :name: Modify
+    :description: Modify Container Node
+    :feature_type: admin
+    :identifier: container_node_admin
+    :children:
+    - :name: Edit Node
+      :description: Edit Container Node
+      :feature_type: admin
+      :identifier: container_node_edit
 
 # ContainerReplicator
 - :name: Replicators

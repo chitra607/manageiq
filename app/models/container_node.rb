@@ -119,4 +119,31 @@ class ContainerNode < ApplicationRecord
     self.deleted_on = Time.now.utc
     save
   end
+
+  def update_container_node_queue(userid, options = {})
+    task_opts = {
+      :action => "Updating Container Node for user #{userid}",
+      :userid => userid
+    }
+
+    queue_opts = {
+      :class_name  => self.class.name,
+      :method_name => 'update_container_node',
+      :instance_id => id,
+      :role        => 'ems_operations',
+      :queue_name  => ext_management_system.queue_name_for_ems_operations,
+      :zone        => ext_management_system.my_zone,
+      :args        => [options]
+    }
+
+    MiqTask.generic_action_with_callback(task_opts, queue_opts)
+  end
+
+  def update_container_node(options = {})
+    raw_update_container_node(options)
+  end
+
+  def raw_update_container_node(_options = {})
+    raise NotImplementedError, _("raw_update_container_node must be implemented in a subclass")
+  end
 end
